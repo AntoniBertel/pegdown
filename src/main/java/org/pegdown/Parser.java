@@ -1327,7 +1327,7 @@ public class Parser extends BaseParser<Object> implements Extensions {
                 ticks, Sp(),
                 OneOrMore(
                         FirstOf(
-                                Sequence(TestNot('`'), Nonspacechar()),
+                                Sequence(TestNot('`'), NonspacecharAllowLine()),
                                 Sequence(TestNot(ticks), OneOrMore('`')),
                                 Sequence(TestNot(Sp(), ticks),
                                         FirstOf(Spacechar(), Sequence(Newline(), TestNot(BlankLine()))))
@@ -1435,7 +1435,11 @@ public class Parser extends BaseParser<Object> implements Extensions {
     public Rule Nonspacechar() {
         return Sequence(TestNot(Spacechar()), NotNewline(), ANY);
     }
-
+    
+    public Rule NonspacecharAllowLine() {
+        return Sequence(TestNot(Spacechar()), ANY);
+    }
+    
     @MemoMismatches
     public Rule NormalChar() {
         return Sequence(TestNot(SpecialChar()), TestNot(Spacechar()), NotNewline(), ANY);
